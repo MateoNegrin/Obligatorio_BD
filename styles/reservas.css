@@ -1,0 +1,8 @@
+/* Styles for Reservas page */
+.page-content{ max-width: 920px; width:100%; }
+.page-title{ font-size: 22px; color: rgb(48, 67, 116); margin-bottom: 8px; }
+.page-lead{ color: rgb(77,87,108); margin-bottom: 14px; }
+.card{ background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 8px 20px rgba(16,24,40,0.06); }
+
+/* small helper for placeholder */
+.card p{ margin:0; color: #555; }

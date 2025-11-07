@@ -1,0 +1,55 @@
+.ucu-header {
+  background-color: rgb(143, 170, 204);
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  border-bottom: 4px solid rgb(48, 67, 116);
+}
+
+.ucu-header-left-section {
+  width: 180px;
+}
+
+.ucu-mobile-logo {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .ucu-header-left-section {
+    width: unset;
+  }
+  .ucu-mobile-logo {
+    display: block;
+    height: 35px;
+    margin-top: 5px;
+    background-color: rgb(143, 170, 204);
+  }
+}
+
+.ucu-logo {
+  width: 130px;
+  margin-top: 5px;
+}
+
+@media (max-width: 800px) {
+  .ucu-logo {
+    display: none;
+  }
+}
+
+.ucu-header-right-section {
+  width: 180px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: end;
+}
