@@ -1,0 +1,11 @@
+/* Styles for Salas page */
+.page-content{ max-width: 920px; width:100%; }
+.page-title{ font-size: 22px; color: rgb(48, 67, 116); margin-bottom: 8px; }
+.page-lead{ color: rgb(77,87,108); margin-bottom: 14px; }
+.card{ background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 8px 20px rgba(16,24,40,0.06); }
+.list{ list-style:none; padding:0; margin:0; }
+.list li{ padding: 10px 12px; border-bottom:1px solid #eee; }
+
+@media (max-width: 600px){
+  .page-content{ padding: 0 6px; }
+}
