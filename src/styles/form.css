@@ -1,0 +1,79 @@
+/* Styles for Form pages */
+.page-content{ max-width: 920px; width:100%; }
+.page-header{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.page-title{ font-size: 22px; color: rgb(48, 67, 116); margin: 0; }
+
+.card{ background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 8px 20px rgba(16,24,40,0.06); }
+
+.data-form{ display: flex; flex-direction: column; gap: 16px; }
+
+.form-group{ display: flex; flex-direction: column; gap: 6px; }
+
+.form-group label{ 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: rgb(48, 67, 116);
+}
+
+.form-group input,
+.form-group select{ 
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: Roboto, Arial;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus{ 
+  outline: none;
+  border-color: rgb(48, 67, 116);
+  box-shadow: 0 0 0 3px rgba(48, 67, 116, 0.1);
+}
+
+.form-actions{ 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+.submit-button{ 
+  color: rgb(255, 255, 255); 
+  padding: 10px 20px; 
+  background-color: rgb(48, 67, 116); 
+  border: 1px solid rgb(27, 53, 140); 
+  border-radius: 15px; 
+  cursor: pointer; 
+  box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5); 
+  font-weight: bold; 
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.submit-button:hover{ 
+  background-color: rgb(24, 80, 149); 
+}
+
+.cancel-button{ 
+  color: rgb(48, 67, 116); 
+  padding: 10px 20px; 
+  background-color: #fff; 
+  border: 1px solid rgb(48, 67, 116); 
+  border-radius: 15px; 
+  cursor: pointer; 
+  font-weight: bold; 
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.cancel-button:hover{ 
+  background-color: rgb(245, 247, 250);
+}
+
+@media (max-width: 600px){
+  .card{ padding: 16px; }
+  .form-actions{ flex-direction: column; }
+  .submit-button, .cancel-button{ width: 100%; }
+}
