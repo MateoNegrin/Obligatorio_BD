@@ -1,6 +1,9 @@
 /* Styles for Participantes page */
 .page-content{ max-width: 920px; width:100%; }
-.page-title{ font-size: 22px; color: rgb(48, 67, 116); margin-bottom: 8px; }
+.page-header{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.page-title{ font-size: 22px; color: rgb(48, 67, 116); margin: 0; }
+.add-button{ color: rgb(255, 255, 255); padding: 4px 16px; background-color: rgb(48, 67, 116); border: 1px solid rgb(27, 53, 140); border-radius: 15px; cursor: pointer; box-shadow: 0 2px 5px rgba(213, 217, 217, 0.5); font-weight: bold; font-size: 14px; }
+.add-button:hover{ background-color: rgb(24, 80, 149); border: 1px solid rgb(27, 53, 140); }
 .page-lead{ color: rgb(77,87,108); margin-bottom: 14px; }
 .card{ background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 8px 20px rgba(16,24,40,0.06); }
 .data-table{ width:100%; border-collapse: collapse; }
