@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agregar Reserva</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/sidebar.css">
-  <link rel="stylesheet" href="../styles/form.css">
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/form.css">
 </head>
 <body>
   <div class="ucu-header">
     <div class="ucu-header-left-section">
-      <a href="adminDashboard.html" class="header-link">
-        <img class="ucu-logo" src="../images/English_UCU_Logo.png">
-        <img class="ucu-mobile-logo" src="../images/logoMobile.png">
+      <a href="../adminDashboard.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
       </a>
     </div>
     <div class="ucu-header-right-section">
-      <a class="login-link" href="loginPage.html"><button class="login-button">Login</button></a>
+      <button id="logoutBtn" class="login-button">Log out</button>
     </div>
   </div>
 
@@ -26,7 +26,7 @@
     <section class="page-content">
       <div class="page-header">
         <h2 class="page-title">Agregar Reserva</h2>
-        <a href="reservas.html"><button class="cancel-button">Volver</button></a>
+        <a href="../features/reservas.html"><button class="cancel-button">Volver</button></a>
       </div>
 
       <div class="card">
@@ -92,7 +92,7 @@
 
           <div class="form-actions">
             <button type="submit" class="submit-button">Guardar Reserva</button>
-            <a href="reservas.html"><button type="button" class="cancel-button">Cancelar</button></a>
+            <a href="../features/reservas.html"><button type="button" class="cancel-button">Cancelar</button></a>
           </div>
         </form>
       </div>
@@ -100,13 +100,14 @@
   </main>
 
   <div class="sidebar">
-    <div class="sidebar-link"><a class="sidebar-anchor" href="participantes.html"><button class="sidebar-button">Participantes</button></a></div>
-    <div class="sidebar-link"><a class="sidebar-anchor" href="salas.html"><button class="sidebar-button">Salas</button></a></div>
-    <div class="sidebar-link"><a class="sidebar-anchor" href="reservas.html"><button class="sidebar-button">Reservas</button></a></div>
-    <div class="sidebar-link"><a class="sidebar-anchor" href="sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
-    <div class="sidebar-link"><a class="sidebar-anchor" href="consultas.html"><button class="sidebar-button">Consultas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/participantes.html"><button class="sidebar-button">Participantes</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/salas.html"><button class="sidebar-button">Salas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/reservas.html"><button class="sidebar-button">Reservas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/consultas.html"><button class="sidebar-button">Consultas</button></a></div>
   </div>
-  <script src="../scripts/auth/sidebar-auth.js" defer></script>
-  <script src="../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
 </body>
 </html>

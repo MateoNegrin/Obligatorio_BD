@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const hardcodedPass = 'admin123';
     if (username === hardcodedUser && password === hardcodedPass) {
       try { localStorage.setItem('isLoggedIn', 'true'); } catch (e) { }
-      window.location.href = 'adminDashboard.html';
+      window.location.href = '../adminDashboard.html';
     } else {
       formError.textContent = 'Usuario o contraseña inválidos.';
       passwordInput.value = '';
