@@ -1,5 +1,7 @@
-from mysql.connector import Error  # corregido
+from mysql.connector import Error
 from config import get_connection
+from flask import Flask, jsonify 
+from flask_cors import CORS  
 
 def ping():
     """Prueba simple de conexión y SELECT 1."""
@@ -23,7 +25,6 @@ def fetch_all(query, cols):
     """Helper genérico para SELECT *."""
     conn = get_connection()
     if not conn:
-        print("[DB] Conexión fallida en fetch_all.")
         return []
     try:
         cur = conn.cursor()
@@ -50,8 +51,11 @@ def get_all_salas():
 
 def get_all_reservas():
     return fetch_all(
-        "SELECT id_reserva, nombre_sala, edificio, fecha, id_turno, estado FROM reserva",
-        ["id_reserva", "nombre_sala", "edificio", "fecha", "id_turno", "estado"]
+        """SELECT r.id_reserva, r.nombre_sala, r.edificio, r.fecha,
+                  t.hora_inicio, t.hora_fin, r.estado
+           FROM reserva r
+           JOIN turno t ON r.id_turno = t.id_turno""",
+        ["id_reserva", "nombre_sala", "edificio", "fecha", "hora_inicio", "hora_fin", "estado"]
     )
 
 def get_all_sanciones():
@@ -59,3 +63,30 @@ def get_all_sanciones():
         "SELECT participante_ci, fecha_inicio, fecha_fin FROM sancion_cuenta",
         ["participante_ci", "fecha_inicio", "fecha_fin"]
     )
+
+# Endpoints Flask
+app = Flask(__name__)
+
+@app.route("/api/participantes", methods=["GET"])
+def api_participantes():
+    return jsonify(get_all_participantes()), 200
+
+@app.route("/api/salas", methods=["GET"])
+def api_salas():
+    return jsonify(get_all_salas()), 200
+
+@app.route("/api/reservas", methods=["GET"])
+def api_reservas():
+    return jsonify(get_all_reservas()), 200
+
+@app.route("/api/sanciones", methods=["GET"])
+def api_sanciones():
+    return jsonify(get_all_sanciones()), 200
+
+@app.route("/api/health", methods=["GET"])
+def api_health():
+    return jsonify({"status": "ok"}), 200
+
+if __name__ == "__main__":
+    # Ejecutar servicio (usar: py backend/services.py)
+    app.run(host="0.0.0.0", port=5000, debug=True)
