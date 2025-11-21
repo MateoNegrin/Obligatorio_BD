@@ -202,12 +202,11 @@ VALUES
     (5495057,5,'2025-10-29',false),
     (5474899,5,'2025-10-29',false);
 
-INSERT INTO sancion_cuenta
 insert into sancion_cuenta (participante_ci, fecha_inicio, fecha_fin)
 select rc.participante_ci, max(r.fecha), DATE_ADD(max(r.fecha), INTERVAL 2 MONTH)
-                           from reserva r JOIN reserva_cuenta rc on rc.id_reserva = r.id_reserva
-                           where rc.participante_ci = 5495057 or rc.participante_ci = 5474899
-                           group by rc.participante_ci;
+from reserva r JOIN reserva_cuenta rc on rc.id_reserva = r.id_reserva
+where rc.participante_ci = 5495057 or rc.participante_ci = 5474899
+group by rc.participante_ci;
 
 -- CONSULTAS
 -- 1
@@ -280,6 +279,10 @@ join participante p on p.ci = rc.participante_ci
 group by e.nombre_edificio;
 
 -- Usuario para la aplicación
-CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED BY 'apppassword';
-GRANT ALL PRIVILEGES ON obligatorio.* TO 'appuser'@'%';
+DROP USER IF EXISTS 'appuser'@'%';
+DROP USER IF EXISTS 'appuser'@'localhost';
+CREATE USER 'appuser'@'%' IDENTIFIED WITH mysql_native_password BY 'apppassword';
+CREATE USER 'appuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'apppassword';
+GRANT ALL PRIVILEGES ON obligatorio.* TO 'appuser'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON obligatorio.* TO 'appuser'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
