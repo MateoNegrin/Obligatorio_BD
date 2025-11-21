@@ -3,37 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Participantes</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/sidebar.css">
-  <link rel="stylesheet" href="../styles/participantes.css">
+  <title>Sanciones</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/sanciones.css">
 </head>
 <body>
   <div class="ucu-header">
     <div class="ucu-header-left-section">
-      <a href="adminDashboard.html" class="header-link">
-        <img class="ucu-logo" src="../images/English_UCU_Logo.png">
-        <img class="ucu-mobile-logo" src="../images/logoMobile.png">
+      <a href="../adminDashboard.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
       </a>
     </div>
     <div class="ucu-header-right-section">
-      <a class="login-link" href="loginPage.html"><button class="login-button">Login</button></a>
+      <button id="logoutBtn" class="login-button">Log out</button>
     </div>
   </div>
 
   <main class="page-main">
     <section class="page-content">
-      <h2 class="page-title">Participantes</h2>
-      <p class="page-lead">Lista de participantes registrados. Usa las acciones para añadir, editar o eliminar.</p>
+      <div class="page-header">
+        <h2 class="page-title">Sanciones</h2>
+        <a href="../forms/formSancion.html"><button class="add-button">Agregar Sanción</button></a>
+      </div>
 
       <div class="card">
         <table class="data-table">
           <thead>
-            <tr><th>Nombre</th><th>Email</th><th>Estado</th><th>Acciones</th></tr>
+            <tr><th>CI Participante</th><th>Fecha Inicio</th><th>Fecha Fin</th></tr>
           </thead>
           <tbody>
-            <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
           </tbody>
         </table>
       </div>
@@ -47,7 +49,8 @@
     <div class="sidebar-link"><a class="sidebar-anchor" href="sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
     <div class="sidebar-link"><a class="sidebar-anchor" href="consultas.html"><button class="sidebar-button">Consultas</button></a></div>
   </div>
-  <script src="../scripts/auth/sidebar-auth.js" defer></script>
-  <script src="../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
 </body>
 </html>

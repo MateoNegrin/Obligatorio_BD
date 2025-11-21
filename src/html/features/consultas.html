@@ -3,32 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sanciones</title>
-  <link rel="stylesheet" href="../styles/general.css">
-  <link rel="stylesheet" href="../styles/header.css">
-  <link rel="stylesheet" href="../styles/sidebar.css">
-  <link rel="stylesheet" href="../styles/sanciones.css">
+  <title>Consultas</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/consultas.css">
 </head>
 <body>
   <div class="ucu-header">
     <div class="ucu-header-left-section">
-      <a href="adminDashboard.html" class="header-link">
-        <img class="ucu-logo" src="../images/English_UCU_Logo.png">
-        <img class="ucu-mobile-logo" src="../images/logoMobile.png">
+      <a href="../homepage.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
       </a>
     </div>
     <div class="ucu-header-right-section">
-      <a class="login-link" href="loginPage.html"><button class="login-button">Login</button></a>
+      <button id="logoutBtn" class="login-button" style="display:none;">Log out</button>
+      <a class="login-link" href="../login/loginPage.html"><button class="login-button" id="loginBtn">Login</button></a>
     </div>
   </div>
-
-  <main class="page-main">
+  
+    <main class="page-main">
     <section class="page-content">
-      <h2 class="page-title">Sanciones</h2>
-      <p class="page-lead">Lista de sanciones aplicadas a participantes por incumplimientos.</p>
+      <h2 class="page-title">Consultas</h2>
+      <p class="page-lead">Consultas y reportes sobre reservas y uso de salas.</p>
 
       <div class="card">
-        <p>No hay sanciones registradas.</p>
+        <p>Panel de consultas.</p>
       </div>
     </section>
   </main>
@@ -40,7 +41,8 @@
     <div class="sidebar-link"><a class="sidebar-anchor" href="sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
     <div class="sidebar-link"><a class="sidebar-anchor" href="consultas.html"><button class="sidebar-button">Consultas</button></a></div>
   </div>
-  <script src="../scripts/auth/sidebar-auth.js" defer></script>
-  <script src="../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
 </body>
 </html>

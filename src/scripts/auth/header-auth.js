@@ -6,5 +6,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const headerLink = document.querySelector('.header-link');
   if (!headerLink) return;
 
-  headerLink.setAttribute('href', 'adminDashboard.html');
+  // Detectar la ruta correcta basada en la ubicación actual
+  const currentPath = window.location.pathname;
+  let adminDashboardPath = 'adminDashboard.html';
+  
+  if (currentPath.includes('/features/') || currentPath.includes('/forms/')) {
+    adminDashboardPath = '../adminDashboard.html';
+  } else if (currentPath.includes('/login/')) {
+    adminDashboardPath = '../adminDashboard.html';
+  }
+  
+  headerLink.setAttribute('href', adminDashboardPath);
 });

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Participante</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/form.css">
+</head>
+<body>
+  <div class="ucu-header">
+    <div class="ucu-header-left-section">
+      <a href="../adminDashboard.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
+      </a>
+    </div>
+    <div class="ucu-header-right-section">
+      <button id="logoutBtn" class="login-button">Log out</button>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <section class="page-content">
+      <div class="page-header">
+        <h2 class="page-title">Agregar Participante</h2>
+        <a href="../features/participantes.html"><button class="cancel-button">Volver</button></a>
+      </div>
+
+      <div class="card">
+        <form id="formParticipante" class="data-form">
+          <div class="form-group">
+            <label for="ci">CI *</label>
+            <input type="text" id="ci" name="ci" required placeholder="Ej: 5495057">
+          </div>
+
+          <div class="form-group">
+            <label for="nombre">Nombre *</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan">
+          </div>
+
+          <div class="form-group">
+            <label for="apellido">Apellido *</label>
+            <input type="text" id="apellido" name="apellido" required placeholder="Ej: Pérez">
+          </div>
+
+          <div class="form-group">
+            <label for="fecha_nac">Fecha de Nacimiento</label>
+            <input type="date" id="fecha_nac" name="fecha_nac">
+          </div>
+
+          <div class="form-group">
+            <label for="genero">Género</label>
+            <select id="genero" name="genero">
+              <option value="">Seleccionar...</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-button">Guardar Participante</button>
+            <a href="../features/participantes.html"><button type="button" class="cancel-button">Cancelar</button></a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="sidebar">
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/participantes.html"><button class="sidebar-button">Participantes</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/salas.html"><button class="sidebar-button">Salas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/reservas.html"><button class="sidebar-button">Reservas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/consultas.html"><button class="sidebar-button">Consultas</button></a></div>
+  </div>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
+</body>
+</html>
