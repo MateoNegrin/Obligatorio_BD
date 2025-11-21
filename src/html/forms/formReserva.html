@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Reserva</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/form.css">
+</head>
+<body>
+  <div class="ucu-header">
+    <div class="ucu-header-left-section">
+      <a href="../adminDashboard.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
+      </a>
+    </div>
+    <div class="ucu-header-right-section">
+      <button id="logoutBtn" class="login-button">Log out</button>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <section class="page-content">
+      <div class="page-header">
+        <h2 class="page-title">Agregar Reserva</h2>
+        <a href="../features/reservas.html"><button class="cancel-button">Volver</button></a>
+      </div>
+
+      <div class="card">
+        <form id="formReserva" class="data-form">
+          <div class="form-group">
+            <label for="id_reserva">ID Reserva *</label>
+            <input type="number" id="id_reserva" name="id_reserva" required placeholder="Ej: 1">
+          </div>
+
+          <div class="form-group">
+            <label for="edificio">Edificio *</label>
+            <select id="edificio" name="edificio" required>
+              <option value="">Seleccionar...</option>
+              <option value="Edificio Mullin">Edificio Mullin</option>
+              <option value="Edificio Sacre Coeur">Edificio Sacre Coeur</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="nombre_sala">Sala *</label>
+            <select id="nombre_sala" name="nombre_sala" required>
+              <option value="">Primero seleccione un edificio</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="fecha">Fecha *</label>
+            <input type="date" id="fecha" name="fecha" required>
+          </div>
+
+          <div class="form-group">
+            <label for="id_turno">Turno *</label>
+            <select id="id_turno" name="id_turno" required>
+              <option value="">Seleccionar...</option>
+              <option value="1">08:00 - 09:00</option>
+              <option value="2">09:00 - 10:00</option>
+              <option value="3">10:00 - 11:00</option>
+              <option value="4">11:00 - 12:00</option>
+              <option value="5">12:00 - 13:00</option>
+              <option value="6">13:00 - 14:00</option>
+              <option value="7">14:00 - 15:00</option>
+              <option value="8">15:00 - 16:00</option>
+              <option value="9">16:00 - 17:00</option>
+              <option value="10">17:00 - 18:00</option>
+              <option value="11">18:00 - 19:00</option>
+              <option value="12">19:00 - 20:00</option>
+              <option value="13">20:00 - 21:00</option>
+              <option value="14">21:00 - 22:00</option>
+              <option value="15">22:00 - 23:00</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="estado">Estado *</label>
+            <select id="estado" name="estado" required>
+              <option value="">Seleccionar...</option>
+              <option value="activa" selected>Activa</option>
+              <option value="cancelada">Cancelada</option>
+              <option value="sin asistencia">Sin asistencia</option>
+              <option value="finalizada">Finalizada</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="submit-button">Guardar Reserva</button>
+            <a href="../features/reservas.html"><button type="button" class="cancel-button">Cancelar</button></a>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="sidebar">
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/participantes.html"><button class="sidebar-button">Participantes</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/salas.html"><button class="sidebar-button">Salas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/reservas.html"><button class="sidebar-button">Reservas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/consultas.html"><button class="sidebar-button">Consultas</button></a></div>
+  </div>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
+</body>
+</html>

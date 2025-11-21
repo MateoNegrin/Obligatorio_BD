@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Participantes</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/participantes.css">
+</head>
+<body>
+  <div class="ucu-header">
+    <div class="ucu-header-left-section">
+      <a href="../adminDashboard.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
+      </a>
+    </div>
+    <div class="ucu-header-right-section">
+      <button id="logoutBtn" class="login-button">Log out</button>
+    </div>
+  </div>
+
+  <main class="page-main">
+    <section class="page-content">
+      <div class="page-header">
+        <h2 class="page-title">Participantes</h2>
+        <a href="../forms/formParticipante.html"><button class="add-button">Agregar Participante</button></a>
+      </div>
+
+      <div class="card">
+        <table class="data-table">
+          <thead>
+            <tr><th>CI</th><th>Nombre</th><th>Apellido</th><th>Fecha Nacimiento</th><th>Genero</th></tr>
+          </thead>
+          <tbody id="participantesTbody">
+            <!-- dinámico -->
+          </tbody>
+        </table>
+        <div id="participantesEmpty" style="display:none;padding:8px;">Sin participantes.</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="sidebar">
+    <div class="sidebar-link"><a class="sidebar-anchor" href="participantes.html"><button class="sidebar-button">Participantes</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="salas.html"><button class="sidebar-button">Salas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="reservas.html"><button class="sidebar-button">Reservas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="consultas.html"><button class="sidebar-button">Consultas</button></a></div>
+  </div>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
+  <script src="../../scripts/features/listParticipantes.js" defer></script>
+</body>
+</html>
