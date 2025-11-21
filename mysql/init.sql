@@ -182,6 +182,103 @@ VALUES
     ('1A','Edificio Sacre Coeur',3,'libre'),
     ('1B','Edificio Sacre Coeur',5,'docente');
 
+INSERT INTO reserva
+VALUES
+    (1, '2A','Edificio Mullin','2025-05-12',3,'finalizada'),
+    (2,'1A', 'Edificio Sacre Coeur','2025-09-15',10,'finalizada'),
+    (3, '1B', 'Edificio Sacre Coeur', '2025-10-02',7,'finalizada'),
+    (4,'1B', 'Edificio Mullin','2025-03-04', 14, 'finalizada'),
+    (5,'1B', 'Edificio Sacre Coeur', '2025-11-02',3,'sin asistencia');
+
+INSERT INTO reserva_cuenta
+VALUES
+    (5495057,1,'2025-05-02',true),
+    (5502347,1,'2025-05-02',true),
+    (5495057, 2,'2025-09-10',true),
+    (5474899,2,'2025-09-10',true),
+    (5334656,3,'2025-09-30',true),
+    (4932331,4,'2025-03-01',true),
+    (5502347,4,'2025-03-01',false),
+    (5495057,5,'2025-10-29',false),
+    (5474899,5,'2025-10-29',false);
+
+INSERT INTO sancion_cuenta
+insert into sancion_cuenta (participante_ci, fecha_inicio, fecha_fin)
+select rc.participante_ci, max(r.fecha), DATE_ADD(max(r.fecha), INTERVAL 2 MONTH)
+                           from reserva r JOIN reserva_cuenta rc on rc.id_reserva = r.id_reserva
+                           where rc.participante_ci = 5495057 or rc.participante_ci = 5474899
+                           group by rc.participante_ci;
+
+-- CONSULTAS
+-- 1
+select nombre_sala, count(*) from reserva group by nombre_sala limit 3; -- hay que ponerle una variable en lugar de 3
+-- 2
+select r.id_turno, t.hora_inicio, t.hora_fin, count(*)
+from reserva r join turno t on t.id_turno =r.id_turno
+group by id_turno,hora_inicio,hora_fin
+limit 3; -- hay que ponerle una variable en lugar de 3
+-- 3
+select x.nombre_sala, avg(suma) from (
+    select r.nombre_sala, r.id_reserva, count(*) as suma
+    from reserva r join reserva_cuenta rc on r.id_reserva = rc.id_reserva
+    group by r.nombre_sala, r.id_reserva
+                                   ) as x
+group by nombre_sala; -- no se si es esto a lo que se refiere
+-- 4
+select cp.nombre_programa, f.nombre, count(rc.id_reserva)
+from reserva_cuenta rc join datos_cuenta dc on rc.participante_ci = dc.ci
+join cuenta_programa_academico cp on dc.email = cp.email
+join programa_academico pa on pa.nombre_programa = cp.nombre_programa
+join facultad f on f.id_facultad = pa.id_facultad
+group by cp.nombre_programa, f.nombre;
+-- 5
+select nombre_edificio, count(r.id_reserva)/count(r.nombre_sala)
+from reserva r join sala s on r.nombre_sala = s.nombre_sala
+right join edificio e on e.nombre_edificio = s.edificio
+where r.fecha = CURDATE() and id_turno =(
+    select id_turno
+    from turno
+    where hora_inicio < CURTIME() and hora_fin > CURTIME()
+    )
+group by e.nombre_edificio;
+-- 6
+select dc.rol, pa.tipo, count(r.id_reserva), count(case when rc.asistencia = true then 1 end)
+from reserva_cuenta rc join reserva r on rc.id_reserva = r.id_reserva
+join datos_cuenta dc on rc.participante_ci =dc.ci
+join cuenta_programa_academico cpa on dc.email = cpa.email
+join programa_academico pa on pa.nombre_programa = cpa.nombre_programa
+group by dc.rol, pa.tipo;
+-- 7
+select dc.rol, pa.tipo, count(*)
+from sancion_cuenta sc join datos_cuenta dc on dc.ci = sc.participante_ci
+join cuenta_programa_academico cpa on cpa.email =dc.email
+join programa_academico pa on pa.nombre_programa = cpa.nombre_programa
+group by dc.rol, pa.tipo ;
+-- 8
+select count(case when estado = 'finalizada' or estado = 'activa'then 1 end)
+           /count(case when estado = 'cancelada' or estado = 'sin asistencia'then 1 end)
+from reserva;
+-- Otras 3 consultas
+
+-- proporción de alumnas mujeres en total por carrera
+select pa.nombre_programa, f.nombre, count(case when genero = 'femenino' then 1 end)/count(*)
+from participante p join datos_cuenta dc on p.ci = dc.ci
+join cuenta_programa_academico cpa on cpa.email = dc.email
+join programa_academico pa on pa.nombre_programa = cpa.nombre_programa
+join facultad f on f.id_facultad = pa.id_facultad
+where dc.rol = 'alumno'
+group by pa.nombre_programa, f.nombre ;
+-- Cantidad de personas que reservan por género
+select p.genero, count(*)
+from participante p join reserva_cuenta rc on p.ci = rc.participante_ci
+group by p.genero ;
+-- Promedio de edad de quienes reservan por edificio
+select e.nombre_edificio, avg(TIMESTAMPDIFF(YEAR, p.fecha_nac, CURDATE()))
+from edificio e join reserva r on e.nombre_edificio = r.edificio
+join reserva_cuenta rc on r.id_reserva =rc.id_reserva
+join participante p on p.ci = rc.participante_ci
+group by e.nombre_edificio;
+
 -- Usuario para la aplicación
 CREATE USER IF NOT EXISTS 'appuser'@'%' IDENTIFIED BY 'apppassword';
 GRANT ALL PRIVILEGES ON obligatorio.* TO 'appuser'@'%';
