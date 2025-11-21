@@ -21,6 +21,16 @@ def ping():
         print(f"[DB] Error en ping: {e}")
         return False
 
+def _to_json_safe(v):
+    # normaliza date/time a string ISO
+    try:
+        import datetime
+        if isinstance(v, (datetime.date, datetime.time, datetime.datetime)):
+            return v.isoformat()
+    except Exception:
+        pass
+    return v
+
 def fetch_all(query, cols):
     """Helper genérico para SELECT *."""
     conn = get_connection()
@@ -32,7 +42,7 @@ def fetch_all(query, cols):
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        return [dict(zip(cols, r)) for r in rows]
+        return [ { cols[i]: _to_json_safe(row[i]) for i in range(len(cols)) } for row in rows ]
     except Error as e:
         print(f"[DB] Error en fetch_all: {e}")
         return []
@@ -66,6 +76,7 @@ def get_all_sanciones():
 
 # Endpoints Flask
 app = Flask(__name__)
+CORS(app)  # habilita CORS para peticiones desde file:// y http://
 
 @app.route("/api/participantes", methods=["GET"])
 def api_participantes():

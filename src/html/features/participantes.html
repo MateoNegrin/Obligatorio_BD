@@ -34,10 +34,11 @@
           <thead>
             <tr><th>CI</th><th>Nombre</th><th>Apellido</th><th>Fecha Nacimiento</th><th>Genero</th></tr>
           </thead>
-          <tbody>
-            <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+          <tbody id="participantesTbody">
+            <!-- dinámico -->
           </tbody>
         </table>
+        <div id="participantesEmpty" style="display:none;padding:8px;">Sin participantes.</div>
       </div>
     </section>
   </main>
@@ -52,5 +53,6 @@
   <script src="../../scripts/auth/sidebar-auth.js" defer></script>
   <script src="../../scripts/auth/header-auth.js" defer></script>
   <script src="../../scripts/auth/logout.js" defer></script>
+  <script src="../../scripts/features/listParticipantes.js" defer></script>
 </body>
 </html>
