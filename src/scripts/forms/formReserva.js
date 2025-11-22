@@ -1,3 +1,5 @@
+import sanitizeInput from '../utils/sanitize.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const f=document.getElementById('formReserva'); if(!f) return;
   const params=new URLSearchParams(location.search);
@@ -23,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
           f.edificio.dispatchEvent(new Event('change'));
           f.nombre_sala.value = rv.nombre_sala;
           f.fecha.value = rv.fecha;
-          f.id_turno.value = rv.hora_inicio ? rv.id_turno || '' : '';
-          // No tenemos id_turno en respuesta; mantener valor manual si se requiere
+          if(rv.id_turno) f.id_turno.value = rv.id_turno;
           f.estado.value = rv.estado;
         }
       });
@@ -34,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const payload={
       id_reserva: parseInt(f.id_reserva.value,10),
-      nombre_sala: f.nombre_sala.value,
-      edificio: f.edificio.value,
+      nombre_sala: sanitizeInput(f.nombre_sala.value,10),
+      edificio: sanitizeInput(f.edificio.value,60),
       fecha: f.fecha.value,
       id_turno: parseInt(f.id_turno.value,10),
       estado: f.estado.value

@@ -1,3 +1,5 @@
+import sanitizeInput from '../utils/sanitize.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   const f = document.getElementById('formParticipante'); if(!f) return;
   const params = new URLSearchParams(location.search);
@@ -20,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
   f.addEventListener('submit', e=>{
     e.preventDefault();
     const payload={
-      ci: f.ci.value.trim(),
-      nombre: f.nombre.value.trim(),
-      apellido: f.apellido.value.trim(),
+      ci: sanitizeInput(f.ci.value, 20),
+      nombre: sanitizeInput(f.nombre.value, 50),
+      apellido: sanitizeInput(f.apellido.value, 50),
       fecha_nac: f.fecha_nac.value || null,
       genero: f.genero.value || null
     };
