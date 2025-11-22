@@ -3,24 +3,6 @@ from config import get_connection
 from flask import Flask, jsonify 
 from flask_cors import CORS  
 
-def ping():
-    """Prueba simple de conexión y SELECT 1."""
-    conn = get_connection()
-    if not conn:
-        print("[DB] Conexión fallida.")
-        return False
-    try:
-        cur = conn.cursor()
-        cur.execute("SELECT 1")
-        cur.fetchall()
-        cur.close()
-        conn.close()
-        print("[DB] OK.")
-        return True
-    except Error as e:
-        print(f"[DB] Error en ping: {e}")
-        return False
-
 def _to_json_safe(v):
     # normaliza date/time a string ISO
     try:
@@ -32,7 +14,6 @@ def _to_json_safe(v):
     return v
 
 def fetch_all(query, cols):
-    """Helper genérico para SELECT *."""
     conn = get_connection()
     if not conn:
         return []
