@@ -41,18 +41,31 @@ def get_all_salas():
     )
 
 def get_all_reservas():
-    return fetch_all(
-        """SELECT r.id_reserva, r.nombre_sala, r.edificio, r.fecha,
-                  t.hora_inicio, t.hora_fin, r.estado
-           FROM reserva r
-           JOIN turno t ON r.id_turno = t.id_turno""",
-        ["id_reserva", "nombre_sala", "edificio", "fecha", "hora_inicio", "hora_fin", "estado"]
+    print("[RESERVAS] Cargando reservas (con horas formateadas)")
+    rows = fetch_all(
+        """
+        SELECT r.id_reserva,
+               r.nombre_sala,
+               r.edificio,
+               r.fecha,
+               TIME_FORMAT(t.hora_inicio,'%H:%i') AS hora_inicio,
+               TIME_FORMAT(t.hora_fin,'%H:%i')   AS hora_fin,
+               r.estado
+        FROM reserva r
+        JOIN turno t ON r.id_turno = t.id_turno
+        ORDER BY r.id_reserva
+        """,
+        ["id_reserva","nombre_sala","edificio","fecha","hora_inicio","hora_fin","estado"]
     )
+    print(f"[RESERVAS] Filas obtenidas: {len(rows)}")
+    if rows:
+        print(f"[RESERVAS] Ejemplo: {rows[0]}")
+    return rows
 
-def get_all_sanciones():
+def get_all_reservas_simple():
     return fetch_all(
-        "SELECT participante_ci, fecha_inicio, fecha_fin FROM sancion_cuenta",
-        ["participante_ci", "fecha_inicio", "fecha_fin"]
+        "SELECT id_reserva, nombre_sala, edificio, fecha, NULL AS hora_inicio, NULL AS hora_fin, estado FROM reserva ORDER BY id_reserva",
+        ["id_reserva","nombre_sala","edificio","fecha","hora_inicio","hora_fin","estado"]
     )
 
 # Endpoints Flask
@@ -69,7 +82,20 @@ def api_salas():
 
 @app.route("/api/reservas", methods=["GET"])
 def api_reservas():
-    return jsonify(get_all_reservas()), 200
+    print("[REQ] /api/reservas")
+    data = get_all_reservas()
+    return jsonify(data), 200
+
+@app.route("/api/reservas/simple", methods=["GET"])
+def api_reservas_simple():
+    print("[REQ] /api/reservas/simple")
+    data = get_all_reservas_simple()
+    return jsonify(data if data else []), 200
+
+@app.route("/api/reservas/check", methods=["GET"])
+def api_reservas_check():
+    data = get_all_reservas()
+    return jsonify({"count": len(data), "sample": (data[0] if data else None)}), 200
 
 @app.route("/api/sanciones", methods=["GET"])
 def api_sanciones():
