@@ -125,9 +125,9 @@ def _execute_delete(query, params):
     except Error as e:
         return False, str(e)
 
-# Endpoints Flask
+# Endpoints
 app = Flask(__name__)
-CORS(app)  # habilita CORS para peticiones desde file:// y http://
+CORS(app)  
 
 @app.route("/api/participantes", methods=["GET"])
 def api_participantes():
