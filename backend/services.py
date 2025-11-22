@@ -28,6 +28,23 @@ def fetch_all(query, cols):
         print(f"[DB] Error en fetch_all: {e}")
         return []
 
+def fetch_one(query, params, cols):
+    conn = get_connection()
+    if not conn:
+        return None
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        row = cur.fetchone()
+        cur.close()
+        conn.close()
+        if not row:
+            return None
+        return { cols[i]: _to_json_safe(row[i]) for i in range(len(cols)) }
+    except Error as e:
+        print(f"[DB] Error en fetch_one: {e}")
+        return None
+
 def get_all_participantes():
     return fetch_all(
         "SELECT ci, nombre, apellido, fecha_nac, genero FROM participante",
@@ -221,11 +238,11 @@ def api_reserva_one(id_reserva):
 
 @app.route("/api/sanciones/<participante_ci>/<fecha_inicio>/<fecha_fin>", methods=["GET"])
 def api_sancion_one(participante_ci, fecha_inicio, fecha_fin):
-    rows = fetch_all(
+    r = fetch_one(
         "SELECT participante_ci,fecha_inicio,fecha_fin FROM sancion_cuenta WHERE participante_ci=%s AND fecha_inicio=%s AND fecha_fin=%s",
+        (participante_ci, fecha_inicio, fecha_fin),
         ["participante_ci","fecha_inicio","fecha_fin"]
     )
-    r = next((x for x in rows if x["participante_ci"]==participante_ci and x["fecha_inicio"]==fecha_inicio and x["fecha_fin"]==fecha_fin), None)
     return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
 
 # --- PUT update ---
