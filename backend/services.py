@@ -424,7 +424,7 @@ def api_sancion_update(participante_ci, fecha_inicio, fecha_fin):
     )
     return (jsonify({"message":"Actualizado"}),200) if ok else (jsonify({"error":err or "No actualizado"}),400)
 
-#Eliminar
+#Delete
 @app.route("/api/participantes/<ci>", methods=["DELETE"])
 def api_participante_delete(ci):
     ok, err = _execute_delete("DELETE FROM participante WHERE ci=%s", (ci,))
@@ -467,7 +467,6 @@ def api_consulta(clave):
 def sanitize_input(s: str):
     if not isinstance(s, str):
         return s
-    # elimina caracteres de riesgo básico para inyección/escape
     return re.sub(r"[\'\"`;%#\\]", "", s)
 
 def sanitize_fields(data: dict, field_names):
@@ -476,5 +475,4 @@ def sanitize_fields(data: dict, field_names):
             data[k] = sanitize_input(data[k])
 
 if __name__ == "__main__":
-    # Ejecutar servicio (usar: py backend/services.py)
     app.run(host="0.0.0.0", port=5000, debug=True)
