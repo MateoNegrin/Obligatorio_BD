@@ -1,6 +1,6 @@
 from mysql.connector import Error
 from config import get_connection
-from flask import Flask, jsonify 
+from flask import Flask, jsonify, request
 from flask_cors import CORS  
 
 def _to_json_safe(v):
@@ -68,6 +68,20 @@ def get_all_reservas():
         print(f"[RESERVAS] Ejemplo: {rows[0]}")
     return rows
 
+def _execute_insert(query, params):
+    conn = get_connection()
+    if not conn:
+        return False, "Sin conexión a la base de datos"
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return True, None
+    except Error as e:
+        return False, str(e)
+
 # Endpoints Flask
 app = Flask(__name__)
 CORS(app)  # habilita CORS para peticiones desde file:// y http://
@@ -93,6 +107,65 @@ def api_sanciones():
 @app.route("/api/health", methods=["GET"])
 def api_health():
     return jsonify({"status": "ok"}), 200
+
+@app.route("/api/participantes", methods=["POST"])
+def api_participantes_create():
+    data = request.get_json(silent=True) or {}
+    required = ["ci","nombre","apellido"]
+    if any(not data.get(f) for f in required):
+        return jsonify({"error":"Campos obligatorios faltan"}), 400
+    ok, err = _execute_insert(
+        "INSERT INTO participante (ci,nombre,apellido,fecha_nac,genero) VALUES (%s,%s,%s,%s,%s)",
+        (data.get("ci"), data.get("nombre"), data.get("apellido"),
+         data.get("fecha_nac") or None, data.get("genero") or None)
+    )
+    if not ok:
+        return jsonify({"error":err}), 400
+    return jsonify({"message":"Participante creado"}), 201
+
+@app.route("/api/salas", methods=["POST"])
+def api_salas_create():
+    data = request.get_json(silent=True) or {}
+    required = ["nombre_sala","edificio","capacidad","tipo_sala"]
+    if any(not data.get(f) for f in required):
+        return jsonify({"error":"Campos obligatorios faltan"}), 400
+    ok, err = _execute_insert(
+        "INSERT INTO sala (nombre_sala,edificio,capacidad,tipo_sala) VALUES (%s,%s,%s,%s)",
+        (data.get("nombre_sala"), data.get("edificio"),
+         data.get("capacidad"), data.get("tipo_sala"))
+    )
+    if not ok:
+        return jsonify({"error":err}), 400
+    return jsonify({"message":"Sala creada"}), 201
+
+@app.route("/api/reservas", methods=["POST"])
+def api_reservas_create():
+    data = request.get_json(silent=True) or {}
+    required = ["id_reserva","nombre_sala","edificio","fecha","id_turno","estado"]
+    if any(not data.get(f) for f in required):
+        return jsonify({"error":"Campos obligatorios faltan"}), 400
+    ok, err = _execute_insert(
+        "INSERT INTO reserva (id_reserva,nombre_sala,edificio,fecha,id_turno,estado) VALUES (%s,%s,%s,%s,%s,%s)",
+        (data.get("id_reserva"), data.get("nombre_sala"), data.get("edificio"),
+         data.get("fecha"), data.get("id_turno"), data.get("estado"))
+    )
+    if not ok:
+        return jsonify({"error":err}), 400
+    return jsonify({"message":"Reserva creada"}), 201
+
+@app.route("/api/sanciones", methods=["POST"])
+def api_sanciones_create():
+    data = request.get_json(silent=True) or {}
+    required = ["participante_ci","fecha_inicio","fecha_fin"]
+    if any(not data.get(f) for f in required):
+        return jsonify({"error":"Campos obligatorios faltan"}), 400
+    ok, err = _execute_insert(
+        "INSERT INTO sancion_cuenta (participante_ci,fecha_inicio,fecha_fin) VALUES (%s,%s,%s)",
+        (data.get("participante_ci"), data.get("fecha_inicio"), data.get("fecha_fin"))
+    )
+    if not ok:
+        return jsonify({"error":err}), 400
+    return jsonify({"message":"Sanción creada"}), 201
 
 if __name__ == "__main__":
     # Ejecutar servicio (usar: py backend/services.py)
