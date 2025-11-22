@@ -213,27 +213,35 @@ def api_sanciones_create():
 # --- GET single ---
 @app.route("/api/participantes/<ci>", methods=["GET"])
 def api_participante_one(ci):
-    rows = fetch_all("SELECT ci,nombre,apellido,fecha_nac,genero FROM participante WHERE ci=%s", ["ci","nombre","apellido","fecha_nac","genero"])
-    r = next((x for x in rows if x["ci"] == ci), None)
+    r = fetch_one(
+        "SELECT ci,nombre,apellido,fecha_nac,genero FROM participante WHERE ci=%s",
+        (ci,),
+        ["ci","nombre","apellido","fecha_nac","genero"]
+    )
     return (jsonify(r), 200) if r else (jsonify({"error":"No encontrado"}),404)
 
 @app.route("/api/salas/<path:edificio>/<nombre_sala>", methods=["GET"])
 def api_sala_one(edificio, nombre_sala):
-    rows = fetch_all("SELECT nombre_sala,edificio,capacidad,tipo_sala FROM sala WHERE edificio=%s AND nombre_sala=%s",
-                     ["nombre_sala","edificio","capacidad","tipo_sala"])
-    r = next((x for x in rows if x["edificio"]==edificio and x["nombre_sala"]==nombre_sala), None)
+    r = fetch_one(
+        "SELECT nombre_sala,edificio,capacidad,tipo_sala FROM sala WHERE edificio=%s AND nombre_sala=%s",
+        (edificio, nombre_sala),
+        ["nombre_sala","edificio","capacidad","tipo_sala"]
+    )
     return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
 
 @app.route("/api/reservas/<int:id_reserva>", methods=["GET"])
 def api_reserva_one(id_reserva):
-    rows = fetch_all("""
+    r = fetch_one(
+        """
         SELECT r.id_reserva,r.nombre_sala,r.edificio,r.fecha,r.id_turno,
                TIME_FORMAT(t.hora_inicio,'%H:%i') AS hora_inicio,
                TIME_FORMAT(t.hora_fin,'%H:%i') AS hora_fin,r.estado
         FROM reserva r JOIN turno t ON r.id_turno=t.id_turno
         WHERE r.id_reserva=%s
-    """, ["id_reserva","nombre_sala","edificio","fecha","hora_inicio","hora_fin","estado"])
-    r = next((x for x in rows if x["id_reserva"]==id_reserva), None)
+        """,
+        (id_reserva,),
+        ["id_reserva","nombre_sala","edificio","fecha","id_turno","hora_inicio","hora_fin","estado"]
+    )
     return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
 
 @app.route("/api/sanciones/<participante_ci>/<fecha_inicio>/<fecha_fin>", methods=["GET"])
