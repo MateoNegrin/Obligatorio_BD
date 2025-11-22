@@ -17,3 +17,13 @@
   .data-table td{ text-align:right; padding-left: 50%; position: relative; }
   .data-table td::before{ content: attr(data-label); position: absolute; left: 12px; width: 45%; text-align:left; font-weight:600; color: #333; }
 }
+
+.actions-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+.actions-stack .action-btn {
+  display: block;
+  width: 100%;
+}
