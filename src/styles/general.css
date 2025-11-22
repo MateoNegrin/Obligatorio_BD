@@ -85,3 +85,28 @@ input, select, button {
   .welcome-title{ font-size: 18px; text-align: center; }
   .welcome-sub{ text-align: center; }
 }
+
+.action-btn {
+      display:inline-block !important;
+      padding:6px 12px;
+      font-size:0.85rem;
+      border-radius:5px;
+      cursor: pointer;
+      font-weight: 600;
+      vertical-align:middle;
+      line-height:1.1;
+      transition: background .15s, transform .15s;
+    }
+    .action-btn:focus { outline: none; }
+    .action-edit {
+      background: #F2C94C;
+      color: #222;
+    }
+    .action-edit:hover { background: #F5D670; }
+    .action-del {
+      background: #E74C3C;
+      color: #fff;
+    }
+    .action-del:hover { background: #C0392B; }
+    .action-btn:active { transform: scale(.97); }
+    .action-group { display:flex; gap:6px; }

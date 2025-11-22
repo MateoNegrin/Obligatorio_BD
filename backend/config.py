@@ -2,9 +2,8 @@ import os
 import mysql.connector
 from mysql.connector import Error
 
-# Defaults (coinciden con init.sql)
 DEFAULTS = {
-    "DB_HOST": "127.0.0.1",  # Cambiar a nombre del servicio (ej: 'db') si corre dentro de Docker
+    "DB_HOST": "127.0.0.1",
     "DB_PORT": "3306",
     "DB_USER": "appuser",
     "DB_PASSWORD": "apppassword",

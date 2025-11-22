@@ -3,3 +3,30 @@
 .page-title{ font-size: 22px; color: rgb(48, 67, 116); margin-bottom: 8px; }
 .page-lead{ color: rgb(77,87,108); margin-bottom: 14px; }
 .card{ background: #fff; padding: 16px; border-radius: 8px; box-shadow: 0 8px 20px rgba(16,24,40,0.06); }
+.consultas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.consulta-action {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px 16px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 12px; /* mismo redondeo que el card */
+  transition: background .15s;
+}
+.consulta-action:hover {
+  background: rgba(0,0,0,0.06);
+}
+.consulta-action:active {
+  background: rgba(0,0,0,0.12);
+}
+/* Opcional: quitar outline feo en focus */
+.consulta-action:focus {
+  outline: 2px solid rgba(0,0,0,0.15);
+  outline-offset: 2px;
+}
