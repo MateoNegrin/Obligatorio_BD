@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const tbody = document.getElementById('reservasTbody');
   if (!tbody) return;
-  const hosts = ['http://localhost:5000','http://127.0.0.1:5000'];
 
   function render(msg) {
     tbody.innerHTML = `<tr><td colspan="7">${msg}</td></tr>`;
@@ -25,44 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
       tbody.appendChild(tr);
     });
   }
-  function fetchJson(url, ok, fail) {
-    fetch(url)
-      .then(r => r.json().then(j => ({ok:r.ok,status:r.status,body:j})).catch(()=>({ok:r.ok,status:r.status,body:null})))
-      .then(res => {
-        if (!res.ok) fail(`HTTP ${res.status}`, res.body);
-        else ok(res.body);
-      })
-      .catch(e => fail('network', e));
-  }
-  function loadHost(i=0) {
-    if (i>=hosts.length) { render('Error cargando reservas (sin conexión)'); return; }
-    const base = hosts[i];
-    const mainUrl = `${base}/api/reservas?cb=${Date.now()}`;
-    fetchJson(mainUrl,
-      data => {
-        if (!Array.isArray(data) || data.length === 0) {
-          const simpleUrl = `${base}/api/reservas/simple?cb=${Date.now()}`;
-          fetchJson(simpleUrl,
-            simple => {
-              if (!Array.isArray(simple) || simple.length === 0) {
-                loadHost(i+1);
-              } else paint(simple);
-            },
-            () => loadHost(i+1)
-          );
-        } else paint(data);
-      },
-      () => {
-        const simpleUrl = `${base}/api/reservas/simple?cb=${Date.now()}`;
-        fetchJson(simpleUrl,
-          simple => {
-            if (!Array.isArray(simple) || simple.length === 0) loadHost(i+1);
-            else paint(simple);
-          },
-          () => loadHost(i+1)
-        );
+
+  fetch('http://localhost:5000/api/reservas?cb=' + Date.now())
+    .then(r => r.json().then(j => ({ ok: r.ok, body: j })))
+    .then(res => {
+      if (!res.ok) {
+        render('Error cargando reservas');
+        return;
       }
-    );
-  }
-  loadHost();
+      paint(res.body);
+    })
+    .catch(() => render('Error cargando reservas'));
 });
