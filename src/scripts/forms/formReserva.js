@@ -1,25 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const f = document.getElementById('formReserva');
-  if (!f) return;
+  const f=document.getElementById('formReserva'); if(!f) return;
+  const params=new URLSearchParams(location.search);
+  const edit=params.get('edit')==='1';
+  const idR=params.get('id_reserva');
 
-  // Dependiente: salas según edificio (simple filtrado predefinido)
-  const salasPorEdificio = {
-    'Edificio Mullin': ['1A','1B','2A'],
-    'Edificio Sacre Coeur': ['1A','1B']
-  };
-  f.edificio.addEventListener('change', () => {
-    const sel = f.nombre_sala;
-    sel.innerHTML = '<option value="">Seleccionar...</option>';
+  const salasPorEdificio={'Edificio Mullin':['1A','1B','2A'],'Edificio Sacre Coeur':['1A','1B']};
+  f.edificio.addEventListener('change',()=>{
+    const sel=f.nombre_sala; sel.innerHTML='<option value="">Seleccionar...</option>';
     (salasPorEdificio[f.edificio.value]||[]).forEach(s=>{
-      const opt=document.createElement('option');
-      opt.value=s; opt.textContent=s;
-      sel.appendChild(opt);
+      const opt=document.createElement('option'); opt.value=s; opt.textContent=s; sel.appendChild(opt);
     });
   });
 
-  f.addEventListener('submit', e => {
+  if(edit && idR){
+    fetch(`http://localhost:5000/api/reservas/${encodeURIComponent(idR)}`)
+      .then(r=>r.json())
+      .then(rv=>{
+        if(rv && !rv.error){
+          f.id_reserva.value = rv.id_reserva;
+          f.id_reserva.disabled = true;
+          f.edificio.value = rv.edificio;
+          f.edificio.dispatchEvent(new Event('change'));
+          f.nombre_sala.value = rv.nombre_sala;
+          f.fecha.value = rv.fecha;
+          f.id_turno.value = rv.hora_inicio ? rv.id_turno || '' : '';
+          // No tenemos id_turno en respuesta; mantener valor manual si se requiere
+          f.estado.value = rv.estado;
+        }
+      });
+  }
+
+  f.addEventListener('submit', e=>{
     e.preventDefault();
-    const payload = {
+    const payload={
       id_reserva: parseInt(f.id_reserva.value,10),
       nombre_sala: f.nombre_sala.value,
       edificio: f.edificio.value,
@@ -27,14 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
       id_turno: parseInt(f.id_turno.value,10),
       estado: f.estado.value
     };
-    fetch('http://localhost:5000/api/reservas', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
-    }).then(r=>r.json().then(j=>({ok:r.ok,j})))
+    const method=edit?'PUT':'POST';
+    const url=edit?`http://localhost:5000/api/reservas/${encodeURIComponent(idR)}`:'http://localhost:5000/api/reservas';
+    fetch(url,{method,headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+      .then(r=>r.json().then(j=>({ok:r.ok,j})))
       .then(res=>{
-        if(res.ok){ alert('Reserva agregada'); location.href='../features/reservas.html'; }
-        else alert('Error: '+(res.j.error||''));
+        if(res.ok){ alert(edit?'Reserva actualizada':'Reserva agregada'); location.href='../features/reservas.html'; }
+        else alert('Error: '+(res.j.error||'')); 
       }).catch(()=>alert('Error de red'));
   });
 });

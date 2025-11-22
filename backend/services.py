@@ -82,6 +82,32 @@ def _execute_insert(query, params):
     except Error as e:
         return False, str(e)
 
+def _execute_update(query, params):
+    conn = get_connection()
+    if not conn: return False, "Sin conexión"
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        conn.commit()
+        affected = cur.rowcount
+        cur.close(); conn.close()
+        return affected > 0, None
+    except Error as e:
+        return False, str(e)
+
+def _execute_delete(query, params):
+    conn = get_connection()
+    if not conn: return False, "Sin conexión"
+    try:
+        cur = conn.cursor()
+        cur.execute(query, params)
+        conn.commit()
+        affected = cur.rowcount
+        cur.close(); conn.close()
+        return affected > 0, None
+    except Error as e:
+        return False, str(e)
+
 # Endpoints Flask
 app = Flask(__name__)
 CORS(app)  # habilita CORS para peticiones desde file:// y http://
@@ -166,6 +192,105 @@ def api_sanciones_create():
     if not ok:
         return jsonify({"error":err}), 400
     return jsonify({"message":"Sanción creada"}), 201
+
+# --- GET single ---
+@app.route("/api/participantes/<ci>", methods=["GET"])
+def api_participante_one(ci):
+    rows = fetch_all("SELECT ci,nombre,apellido,fecha_nac,genero FROM participante WHERE ci=%s", ["ci","nombre","apellido","fecha_nac","genero"])
+    r = next((x for x in rows if x["ci"] == ci), None)
+    return (jsonify(r), 200) if r else (jsonify({"error":"No encontrado"}),404)
+
+@app.route("/api/salas/<path:edificio>/<nombre_sala>", methods=["GET"])
+def api_sala_one(edificio, nombre_sala):
+    rows = fetch_all("SELECT nombre_sala,edificio,capacidad,tipo_sala FROM sala WHERE edificio=%s AND nombre_sala=%s",
+                     ["nombre_sala","edificio","capacidad","tipo_sala"])
+    r = next((x for x in rows if x["edificio"]==edificio and x["nombre_sala"]==nombre_sala), None)
+    return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
+
+@app.route("/api/reservas/<int:id_reserva>", methods=["GET"])
+def api_reserva_one(id_reserva):
+    rows = fetch_all("""
+        SELECT r.id_reserva,r.nombre_sala,r.edificio,r.fecha,r.id_turno,
+               TIME_FORMAT(t.hora_inicio,'%H:%i') AS hora_inicio,
+               TIME_FORMAT(t.hora_fin,'%H:%i') AS hora_fin,r.estado
+        FROM reserva r JOIN turno t ON r.id_turno=t.id_turno
+        WHERE r.id_reserva=%s
+    """, ["id_reserva","nombre_sala","edificio","fecha","hora_inicio","hora_fin","estado"])
+    r = next((x for x in rows if x["id_reserva"]==id_reserva), None)
+    return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
+
+@app.route("/api/sanciones/<participante_ci>/<fecha_inicio>/<fecha_fin>", methods=["GET"])
+def api_sancion_one(participante_ci, fecha_inicio, fecha_fin):
+    rows = fetch_all(
+        "SELECT participante_ci,fecha_inicio,fecha_fin FROM sancion_cuenta WHERE participante_ci=%s AND fecha_inicio=%s AND fecha_fin=%s",
+        ["participante_ci","fecha_inicio","fecha_fin"]
+    )
+    r = next((x for x in rows if x["participante_ci"]==participante_ci and x["fecha_inicio"]==fecha_inicio and x["fecha_fin"]==fecha_fin), None)
+    return (jsonify(r),200) if r else (jsonify({"error":"No encontrado"}),404)
+
+# --- PUT update ---
+@app.route("/api/participantes/<ci>", methods=["PUT"])
+def api_participante_update(ci):
+    data = request.get_json(silent=True) or {}
+    ok, err = _execute_update(
+        "UPDATE participante SET nombre=%s, apellido=%s, fecha_nac=%s, genero=%s WHERE ci=%s",
+        (data.get("nombre"), data.get("apellido"), data.get("fecha_nac"), data.get("genero"), ci)
+    )
+    return (jsonify({"message":"Actualizado"}),200) if ok else (jsonify({"error":err or "No actualizado"}),400)
+
+@app.route("/api/salas/<path:edificio>/<nombre_sala>", methods=["PUT"])
+def api_sala_update(edificio, nombre_sala):
+    data = request.get_json(silent=True) or {}
+    ok, err = _execute_update(
+        "UPDATE sala SET capacidad=%s, tipo_sala=%s WHERE edificio=%s AND nombre_sala=%s",
+        (data.get("capacidad"), data.get("tipo_sala"), edificio, nombre_sala)
+    )
+    return (jsonify({"message":"Actualizado"}),200) if ok else (jsonify({"error":err or "No actualizado"}),400)
+
+@app.route("/api/reservas/<int:id_reserva>", methods=["PUT"])
+def api_reserva_update(id_reserva):
+    data = request.get_json(silent=True) or {}
+    ok, err = _execute_update(
+        "UPDATE reserva SET nombre_sala=%s, edificio=%s, fecha=%s, id_turno=%s, estado=%s WHERE id_reserva=%s",
+        (data.get("nombre_sala"), data.get("edificio"), data.get("fecha"),
+         data.get("id_turno"), data.get("estado"), id_reserva)
+    )
+    return (jsonify({"message":"Actualizado"}),200) if ok else (jsonify({"error":err or "No actualizado"}),400)
+
+@app.route("/api/sanciones/<participante_ci>/<fecha_inicio>/<fecha_fin>", methods=["PUT"])
+def api_sancion_update(participante_ci, fecha_inicio, fecha_fin):
+    data = request.get_json(silent=True) or {}
+    ok, err = _execute_update(
+        "UPDATE sancion_cuenta SET fecha_inicio=%s, fecha_fin=%s WHERE participante_ci=%s AND fecha_inicio=%s AND fecha_fin=%s",
+        (data.get("fecha_inicio_new") or fecha_inicio,
+         data.get("fecha_fin_new") or fecha_fin,
+         participante_ci, fecha_inicio, fecha_fin)
+    )
+    return (jsonify({"message":"Actualizado"}),200) if ok else (jsonify({"error":err or "No actualizado"}),400)
+
+# --- DELETE ---
+@app.route("/api/participantes/<ci>", methods=["DELETE"])
+def api_participante_delete(ci):
+    ok, err = _execute_delete("DELETE FROM participante WHERE ci=%s", (ci,))
+    return (jsonify({"message":"Eliminado"}),200) if ok else (jsonify({"error":err or "No eliminado"}),400)
+
+@app.route("/api/salas/<path:edificio>/<nombre_sala>", methods=["DELETE"])
+def api_sala_delete(edificio, nombre_sala):
+    ok, err = _execute_delete("DELETE FROM sala WHERE edificio=%s AND nombre_sala=%s", (edificio, nombre_sala))
+    return (jsonify({"message":"Eliminado"}),200) if ok else (jsonify({"error":err or "No eliminado"}),400)
+
+@app.route("/api/reservas/<int:id_reserva>", methods=["DELETE"])
+def api_reserva_delete(id_reserva):
+    ok, err = _execute_delete("DELETE FROM reserva WHERE id_reserva=%s", (id_reserva,))
+    return (jsonify({"message":"Eliminado"}),200) if ok else (jsonify({"error":err or "No eliminado"}),400)
+
+@app.route("/api/sanciones/<participante_ci>/<fecha_inicio>/<fecha_fin>", methods=["DELETE"])
+def api_sancion_delete(participante_ci, fecha_inicio, fecha_fin):
+    ok, err = _execute_delete(
+        "DELETE FROM sancion_cuenta WHERE participante_ci=%s AND fecha_inicio=%s AND fecha_fin=%s",
+        (participante_ci, fecha_inicio, fecha_fin)
+    )
+    return (jsonify({"message":"Eliminado"}),200) if ok else (jsonify({"error":err or "No eliminado"}),400)
 
 if __name__ == "__main__":
     # Ejecutar servicio (usar: py backend/services.py)
