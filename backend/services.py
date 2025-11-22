@@ -13,8 +13,7 @@ from backend.app import app
 def api_health():
     return jsonify({"status": "ok"}), 200
 
-# Importar rutas AL FINAL, después de crear app
-from backend.routes import salas, reservas, participantes, sanciones, consultas  # noqa: F401
+from backend.routes import salas, reservas, participantes, sanciones, consultas
 
 if __name__ == "__main__":
     print("=== Rutas registradas ===")
