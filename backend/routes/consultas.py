@@ -42,7 +42,7 @@ CONSULTAS = {
     },
     "ocupacion_por_edificio": {
         "sql": """SELECT e.nombre_edificio,
-                         COUNT(r.id_reserva)/COUNT(r.nombre_sala) AS porcentaje_ocupacion
+                         CONCAT(ROUND((COUNT(r.id_reserva)/COUNT(r.nombre_sala)) * 100, 1), '%') AS porcentaje_ocupacion
                   FROM reserva r JOIN sala s ON r.nombre_sala = s.nombre_sala AND r.edificio = s.edificio
                   RIGHT JOIN edificio e ON e.nombre_edificio = s.edificio
                   WHERE r.fecha = CURDATE() AND r.id_turno = (
@@ -144,7 +144,7 @@ def api_consulta(clave):
     # Fallback para ocupacion_por_edificio si no hay datos
     if clave == "ocupacion_por_edificio" and not data:
         fallback_sql = """SELECT e.nombre_edificio,
-                                 COALESCE( COUNT(r.id_reserva) / NULLIF(COUNT(s.nombre_sala),0), 0 ) AS porcentaje_ocupacion
+                                 CONCAT(ROUND(COALESCE( COUNT(r.id_reserva) / NULLIF(COUNT(s.nombre_sala),0), 0 ) * 100, 1), '%') AS porcentaje_ocupacion
                           FROM edificio e
                           LEFT JOIN sala s ON s.edificio = e.nombre_edificio
                           LEFT JOIN reserva r ON r.edificio = e.nombre_edificio AND r.nombre_sala = s.nombre_sala
