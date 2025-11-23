@@ -17,20 +17,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-
-    const username = sanitizeInput(usernameInput.value, 64);
+    const correo = sanitizeInput(usernameInput.value, 64);
     const password = sanitizeInput(passwordInput.value, 64);
 
-    const hardcodedUser = 'admin';
-    const hardcodedPass = 'admin123';
-    if (username === hardcodedUser && password === hardcodedPass) {
-      try { localStorage.setItem('isLoggedIn', 'true'); } catch (e) { }
-      window.location.href = '../adminDashboard.html';
-    } else {
-      formError.textContent = 'Usuario o contraseña inválidos.';
-      passwordInput.value = '';
-      passwordInput.focus();
-    }
-    
+    fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ correo, password })
+    })
+      .then(r => r.json().then(j => ({ ok: r.ok, j })))
+      .then(res => {
+        if (res.ok) {
+          try { localStorage.setItem('isLoggedIn','true'); } catch(e){}
+          window.location.href = '../adminDashboard.html';
+        } else {
+          formError.textContent = res.j.error || 'Error de autenticación';
+          passwordInput.value = '';
+          passwordInput.focus();
+        }
+      })
+      .catch(() => {
+        formError.textContent = 'Error de red';
+      });
   });
 });

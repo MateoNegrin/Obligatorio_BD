@@ -13,7 +13,7 @@ from backend.app import app
 def api_health():
     return jsonify({"status": "ok"}), 200
 
-from backend.routes import salas, reservas, participantes, sanciones, consultas
+from backend.routes import salas, reservas, participantes, sanciones, consultas, auth
 
 if __name__ == "__main__":
     print("=== Rutas registradas ===")
