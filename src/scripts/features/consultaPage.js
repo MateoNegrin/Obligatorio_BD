@@ -9,7 +9,16 @@ document.addEventListener('DOMContentLoaded', () => {
       tbody.innerHTML = '<tr><td colspan="99">Sin datos</td></tr>';
       return;
     }
-    const cols = Object.keys(rows[0]);
+    let cols = Object.keys(rows[0]);
+    
+    if (key === 'turnos_top') {
+      const idxInicio = cols.indexOf('Hora inicio');
+      const idxFin = cols.indexOf('Hora fin');
+      if (idxInicio !== -1 && idxFin !== -1) {
+        [cols[idxInicio], cols[idxFin]] = [cols[idxFin], cols[idxInicio]];
+      }
+    }
+
     // Crear thead si no existe
     const thead = document.getElementById('consultaThead');
     if (thead && thead.children.length === 0) {
