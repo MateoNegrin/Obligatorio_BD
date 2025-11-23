@@ -105,9 +105,9 @@ CREATE TABLE obligatorio.sancion_cuenta(
 -- Datos de ejemplo
 INSERT INTO participante (ci, nombre, apellido, fecha_nac, genero)
 VALUES
-    (5495057,'Matías','Hernandez','2004-12-05','masculino'),
-    (5474899,'Sofía','Lopéz','2004-01-01','femenino'),
-    (5334656,'José','Artigas','2003-05-01','masculino'),
+    (5495057,'Matias','Hernandez','2004-12-05','masculino'),
+    (5474899,'Sofia','Lopez','2004-01-01','femenino'),
+    (5334656,'Jose','Artigas','2003-05-01','masculino'),
     (5502347,'Luis','Suarez','2005-04-03','masculino'),
     (4932331,'Oscar','Tabarez','1995-06-17','masculino'),
     (4889765,'Hana','Arendt', '1988-08-23','femenino'),
@@ -148,26 +148,26 @@ VALUES
 
 INSERT INTO facultad (id_facultad, nombre)
 VALUES
-    (1,'Facultad de ingeniería y tecnologías'),
-    (2,'Facultad de Psicología y Bienestar Humano');
+    (1,'Facultad de ingenieria y tecnologias'),
+    (2,'Facultad de Psicologia y Bienestar Humano');
 
 -- Normalicé el nombre para evitar errores de FK
 INSERT INTO programa_academico (nombre_programa, id_facultad, tipo)
 VALUES
-    ('Ingeniería en Informática', 1,'grado'),
-    ('Licenciatura en Psicología',2,'grado'),
-    ('Maestría en salud y PNIE', 2, 'posgrado');
+    ('Ingenieria en Informatica', 1,'grado'),
+    ('Licenciatura en Psicologia',2,'grado'),
+    ('Maestria en salud y PNIE', 2, 'posgrado');
 
 INSERT INTO cuenta_programa_academico(email, nombre_programa)
 VALUES
-    ('matias.hernanez@correo.ucu.edu.uy','Ingeniería en Informática'),
-    ('sofia.lopez@correo.ucu.edu.uy','Licenciatura en Psicología'),
-    ('jose.artigas@correo.ucu.edu.uy','Maestría en salud y PNIE'),
-    ('luis.suarez@correo.ucu.edu.uy','Ingeniería en Informática'),
-    ('l.suarez@ucu.edu.uy','Ingeniería en Informática'),
-    ('oscar.tabarez@correo.ucu.edu.uy','Ingeniería en Informática'),
-    ('hana.arendt@correo.ucu.edu.uy','Maestría en salud y PNIE'),
-    ('roberto.musso@correo.ucu.edu.uy','Licenciatura en Psicología');
+    ('matias.hernanez@correo.ucu.edu.uy','Ingenieria en Informatica'),
+    ('sofia.lopez@correo.ucu.edu.uy','Licenciatura en Psicologia'),
+    ('jose.artigas@correo.ucu.edu.uy','Maestria en salud y PNIE'),
+    ('luis.suarez@correo.ucu.edu.uy','Ingenieria en Informatica'),
+    ('l.suarez@ucu.edu.uy','Ingenieria en Informatica'),
+    ('oscar.tabarez@correo.ucu.edu.uy','Ingenieria en Informatica'),
+    ('hana.arendt@correo.ucu.edu.uy','Maestria en salud y PNIE'),
+    ('roberto.musso@correo.ucu.edu.uy','Licenciatura en Psicologia');
 
 INSERT INTO edificio(nombre_edificio, direccion, departamento)
 VALUES
