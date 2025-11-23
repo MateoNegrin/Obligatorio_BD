@@ -21,7 +21,7 @@ CONSULTAS = {
         "limit_default": 3
     },
     "promedio_participantes_sala": {
-        "sql": """SELECT x.nombre_sala, AVG(x.suma) AS promedio_participantes
+        "sql": """SELECT x.nombre_sala, ROUND(AVG(x.suma), 1) AS promedio_participantes
                   FROM (
                     SELECT r.nombre_sala, r.id_reserva, COUNT(*) AS suma
                     FROM reserva r JOIN reserva_cuenta rc ON r.id_reserva = rc.id_reserva
@@ -84,7 +84,7 @@ CONSULTAS = {
     },
     "proporcion_alumnas": {
         "sql": """SELECT pa.nombre_programa, f.nombre AS facultad,
-                         COUNT(CASE WHEN genero='femenino' THEN 1 END)/COUNT(*) AS proporcion_alumnas
+                         ROUND(COUNT(CASE WHEN genero='femenino' THEN 1 END)/COUNT(*), 1) AS proporcion_alumnas
                   FROM participante p
                   JOIN datos_cuenta dc ON p.ci = dc.ci
                   JOIN cuenta_programa_academico cpa ON cpa.email = dc.email
@@ -103,7 +103,7 @@ CONSULTAS = {
     },
     "edad_promedio_por_edificio": {
         "sql": """SELECT e.nombre_edificio,
-                         AVG(TIMESTAMPDIFF(YEAR, p.fecha_nac, CURDATE())) AS edad_promedio
+                         ROUND(AVG(TIMESTAMPDIFF(YEAR, p.fecha_nac, CURDATE())), 1) AS edad_promedio
                   FROM edificio e
                   JOIN reserva r ON e.nombre_edificio = r.edificio
                   JOIN reserva_cuenta rc ON r.id_reserva = rc.id_reserva
