@@ -28,23 +28,18 @@
       <h2 class="page-title">Consultas</h2>
       <p class="page-lead">Consultas y reportes sobre reservas y uso de salas.</p>
 
-      <div class="card">
-        <div class="consultas-list">
-          <button class="consulta-action">Salas más reservadas</button>
-          <button class="consulta-action">Turnos más demandados</button>
-          <button class="consulta-action">Promedio de participantes por sala</button>
-          <button class="consulta-action">Cantidad de reservas por carrera y facultad</button>
-          <button class="consulta-action">Porcentaje de ocupación de salas por edificio</button>
-          <button class="consulta-action">Reservas y asistencias (profesores vs alumnos grado/posgrado)</button>
-          <button class="consulta-action">Sanciones (profesores vs alumnos grado/posgrado)</button>
-          <button class="consulta-action">Reservas utilizadas vs canceladas/no asistidas</button>
-          <button class="consulta-action">Proporción alumnas mujeres por carrera</button>
-          <button class="consulta-action">Reservas por género</button>
-          <button class="consulta-action">Promedio edad por edificio</button>
-          <button class="consulta-action">Capacidad promedio por tipo de sala</button>
-          <button class="consulta-action">Tasa sanciones vs total reservas</button>
-          <button class="consulta-action">Turno con mayor ocupación relativa</button>
-        </div>
+      <div class="card consultas-list">
+        <button class="consulta-action" data-key="salas_top">Salas más reservadas</button>
+        <button class="consulta-action" data-key="turnos_top">Turnos más demandados</button>
+        <button class="consulta-action" data-key="promedio_participantes_sala">Promedio participantes por sala</button>
+        <button class="consulta-action" data-key="reservas_por_carrera_facultad">Reservas por carrera y facultad</button>
+        <button class="consulta-action" data-key="ocupacion_por_edificio">Ocupación por edificio</button>
+        <button class="consulta-action" data-key="reservas_asistencias">Reservas y asistencias</button>
+        <button class="consulta-action" data-key="sanciones_por_rol_tipo">Sanciones por rol y tipo</button>
+        <button class="consulta-action" data-key="porcentaje_utilizacion">Reservas utilizadas vs no utilizadas</button>
+        <button class="consulta-action" data-key="proporcion_alumnas">Proporción alumnas por carrera</button>
+        <button class="consulta-action" data-key="reservas_por_genero">Reservas por género</button>
+        <button class="consulta-action" data-key="edad_promedio_por_edificio">Edad promedio por edificio</button>
       </div>
     </section>
   </main>
@@ -59,5 +54,6 @@
   <script src="../../scripts/auth/sidebar-auth.js" defer></script>
   <script src="../../scripts/auth/header-auth.js" defer></script>
   <script src="../../scripts/auth/logout.js" defer></script>
+  <script src="../../scripts/features/consultasNav.js" defer></script>
 </body>
 </html>

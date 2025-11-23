@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservas por carrera y facultad</title>
+  <link rel="stylesheet" href="../../styles/general.css">
+  <link rel="stylesheet" href="../../styles/header.css">
+  <link rel="stylesheet" href="../../styles/sidebar.css">
+  <link rel="stylesheet" href="../../styles/participantes.css">
+</head>
+<body data-key="reservas_por_carrera_facultad">
+  <div class="ucu-header">
+    <div class="ucu-header-left-section">
+      <a href="../features/Consultas.html" class="header-link">
+        <img class="ucu-logo" src="../../images/English_UCU_Logo.png">
+        <img class="ucu-mobile-logo" src="../../images/logoMobile.png">
+      </a>
+    </div>
+    <div class="ucu-header-right-section">
+      <button id="logoutBtn" class="login-button">Log out</button>
+    </div>
+  </div>
+  <main class="page-main">
+    <section class="page-content">
+      <div class="page-header">
+        <h2 class="page-title">Reservas por carrera y facultad</h2>
+      </div>
+      <div class="card">
+        <table class="data-table">
+          <thead id="consultaThead"></thead>
+          <tbody id="consultaTbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <div class="sidebar">
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/Participantes.html"><button class="sidebar-button">Participantes</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/Salas.html"><button class="sidebar-button">Salas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/Reservas.html"><button class="sidebar-button">Reservas</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/Sanciones.html"><button class="sidebar-button">Sanciones</button></a></div>
+    <div class="sidebar-link"><a class="sidebar-anchor" href="../features/Consultas.html"><button class="sidebar-button">Consultas</button></a></div>
+  </div>
+  <script src="../../scripts/auth/sidebar-auth.js" defer></script>
+  <script src="../../scripts/auth/header-auth.js" defer></script>
+  <script src="../../scripts/auth/logout.js" defer></script>
+  <script src="../../scripts/features/consultaPage.js" defer></script>
+</body>
+</html>
