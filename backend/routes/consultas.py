@@ -10,7 +10,10 @@ CONSULTAS = {
         "limit_default": 3
     },
     "turnos_top": {
-        "sql": """SELECT r.id_turno, t.hora_inicio, t.hora_fin, COUNT(*) AS reservas
+        "sql": """SELECT r.id_turno, 
+                         TIME_FORMAT(t.hora_inicio,'%H:%i') AS hora_inicio, 
+                         TIME_FORMAT(t.hora_fin,'%H:%i') AS hora_fin, 
+                         COUNT(*) AS reservas
                   FROM reserva r JOIN turno t ON t.id_turno = r.id_turno
                   GROUP BY r.id_turno, t.hora_inicio, t.hora_fin
                   ORDER BY reservas DESC LIMIT %s""",
@@ -126,6 +129,7 @@ def api_consulta(clave):
     conf = CONSULTAS.get(clave)
     if not conf:
         return jsonify({"error":"Consulta inválida"}), 400
+    
     if "%s" in conf["sql"]:
         try:
             limit = int(request.args.get("limit", conf.get("limit_default", 3)))
