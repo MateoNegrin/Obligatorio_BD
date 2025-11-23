@@ -16,23 +16,23 @@ El backend usa:
 ## Pasos
 
 ### 1. Clonar el repositorio
-
+```bash
 git clone <repo-url>
 cd Obligatorio_BD
 ```
 
 ### 3. Instalar dependencias
-```
+```bash
 pip install Flask flask-cors mysql-connector-python
 ```
 
 ### 4. Levantar base de datos con Docker
 Asegurarse de estar en la carpeta raíz donde está `docker-compose.yml`:
-```
+```bash
 docker compose up -d
 ```
 Verificar estado:
-```
+```bash
 docker ps
 ```
 La BD se inicializa con el script `mysql/init.sql` automáticamente al primer arranque.
@@ -49,10 +49,9 @@ database: obligatorio
 
 ### 6. Ejecutar backend
 Desde la carpeta raíz:
-```
+```bash
 python backend/services.py
 ```
-
 Debe mostrar "status: ok" al acceder:
 http://localhost:5000/api/health
 
