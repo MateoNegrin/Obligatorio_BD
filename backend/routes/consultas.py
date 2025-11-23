@@ -6,7 +6,7 @@ from backend.utils.sanitize import sanitize_fields
 CONSULTAS = {
     "salas_top": {
         "sql": "SELECT nombre_sala, COUNT(*) AS reservas FROM reserva GROUP BY nombre_sala ORDER BY reservas DESC LIMIT %s",
-        "cols": ["nombre_sala","reservas"],
+        "cols": ["Nombre sala","Reservas"],
         "limit_default": 3
     },
     "turnos_top": {
@@ -14,7 +14,7 @@ CONSULTAS = {
                   FROM reserva r JOIN turno t ON t.id_turno = r.id_turno
                   GROUP BY r.id_turno, t.hora_inicio, t.hora_fin
                   ORDER BY reservas DESC LIMIT %s""",
-        "cols": ["id_turno","hora_inicio","hora_fin","reservas"],
+        "cols": ["Id turno","Hora inicio","Hora fin","Reservas"],
         "limit_default": 3
     },
     "promedio_participantes_sala": {
@@ -25,7 +25,7 @@ CONSULTAS = {
                     GROUP BY r.nombre_sala, r.id_reserva
                   ) x
                   GROUP BY x.nombre_sala""",
-        "cols": ["nombre_sala","promedio_participantes"]
+        "cols": ["Nombre sala","Promedio participantes"]
     },
     "reservas_por_carrera_facultad": {
         "sql": """SELECT cp.nombre_programa, f.nombre AS facultad, COUNT(rc.id_reserva) AS reservas
@@ -35,7 +35,7 @@ CONSULTAS = {
                   JOIN programa_academico pa ON pa.nombre_programa = cp.nombre_programa
                   JOIN facultad f ON f.id_facultad = pa.id_facultad
                   GROUP BY cp.nombre_programa, f.nombre""",
-        "cols": ["nombre_programa","facultad","reservas"]
+        "cols": ["Nombre programa","Facultad","Reservas"]
     },
     "ocupacion_por_edificio": {
         "sql": """SELECT e.nombre_edificio,
@@ -48,7 +48,7 @@ CONSULTAS = {
                       LIMIT 1
                   )
                   GROUP BY e.nombre_edificio""",
-        "cols": ["nombre_edificio","porcentaje_ocupacion"]
+        "cols": ["Nombre edificio","Porcentaje ocupacion"]
     },
     "reservas_asistencias": {
         "sql": """SELECT dc.rol, pa.tipo,
@@ -60,7 +60,7 @@ CONSULTAS = {
                   JOIN cuenta_programa_academico cpa ON dc.email = cpa.email
                   JOIN programa_academico pa ON pa.nombre_programa = cpa.nombre_programa
                   GROUP BY dc.rol, pa.tipo""",
-        "cols": ["rol","tipo","reservas","asistencias"]
+        "cols": ["Rol","Tipo","Reservas","Asistencias"]
     },
     "sanciones_por_rol_tipo": {
         "sql": """SELECT dc.rol, pa.tipo, COUNT(*) AS sanciones
@@ -69,7 +69,7 @@ CONSULTAS = {
                   JOIN cuenta_programa_academico cpa ON cpa.email = dc.email
                   JOIN programa_academico pa ON pa.nombre_programa = cpa.nombre_programa
                   GROUP BY dc.rol, pa.tipo""",
-        "cols": ["rol","tipo","sanciones"]
+        "cols": ["Rol","Tipo","Sanciones"]
     },
     "porcentaje_utilizacion": {
         "sql": """SELECT
@@ -77,7 +77,7 @@ CONSULTAS = {
                      NULLIF(COUNT(CASE WHEN estado IN ('cancelada','sin asistencia') THEN 1 END),0)
                     ) AS ratio_utilizadas_vs_no
                   FROM reserva""",
-        "cols": ["ratio_utilizadas_vs_no"]
+        "cols": ["Ratio utilizadas vs no utilizadas"]
     },
     "proporcion_alumnas": {
         "sql": """SELECT pa.nombre_programa, f.nombre AS facultad,
@@ -89,14 +89,14 @@ CONSULTAS = {
                   JOIN facultad f ON f.id_facultad = pa.id_facultad
                   WHERE dc.rol = 'alumno'
                   GROUP BY pa.nombre_programa, f.nombre""",
-        "cols": ["nombre_programa","facultad","proporcion_alumnas"]
+        "cols": ["Nombre programa","Facultad","Proporcion alumnas"]
     },
     "reservas_por_genero": {
         "sql": """SELECT p.genero, COUNT(*) AS reservas
                   FROM participante p
                   JOIN reserva_cuenta rc ON p.ci = rc.participante_ci
                   GROUP BY p.genero""",
-        "cols": ["genero","reservas"]
+        "cols": ["Genero","Reservas"]
     },
     "edad_promedio_por_edificio": {
         "sql": """SELECT e.nombre_edificio,
@@ -106,7 +106,7 @@ CONSULTAS = {
                   JOIN reserva_cuenta rc ON r.id_reserva = rc.id_reserva
                   JOIN participante p ON p.ci = rc.participante_ci
                   GROUP BY e.nombre_edificio""",
-        "cols": ["nombre_edificio","edad_promedio"]
+        "cols": ["Nombre edificio","Edad promedio"]
     }
 }
 
