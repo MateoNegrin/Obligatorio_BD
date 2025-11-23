@@ -76,8 +76,10 @@ CONSULTAS = {
     },
     "porcentaje_utilizacion": {
         "sql": """SELECT
-                    (COUNT(CASE WHEN estado IN ('finalizada','activa') THEN 1 END) /
-                     NULLIF(COUNT(CASE WHEN estado IN ('cancelada','sin asistencia') THEN 1 END),0)
+                    ROUND(
+                      (COUNT(CASE WHEN estado IN ('finalizada','activa') THEN 1 END) /
+                       NULLIF(COUNT(CASE WHEN estado IN ('cancelada','sin asistencia') THEN 1 END),0)
+                      ), 1
                     ) AS ratio_utilizadas_vs_no
                   FROM reserva""",
         "cols": ["Ratio utilizadas vs no utilizadas"]
