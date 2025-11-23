@@ -134,5 +134,16 @@ def api_consulta(clave):
         data = fetch_param(conf["sql"], (limit,), conf["cols"])
     else:
         data = fetch_param(conf["sql"], (), conf["cols"])
+
+    # Fallback para ocupacion_por_edificio si no hay datos
+    if clave == "ocupacion_por_edificio" and not data:
+        fallback_sql = """SELECT e.nombre_edificio,
+                                 COALESCE( COUNT(r.id_reserva) / NULLIF(COUNT(s.nombre_sala),0), 0 ) AS porcentaje_ocupacion
+                          FROM edificio e
+                          LEFT JOIN sala s ON s.edificio = e.nombre_edificio
+                          LEFT JOIN reserva r ON r.edificio = e.nombre_edificio AND r.nombre_sala = s.nombre_sala
+                          GROUP BY e.nombre_edificio"""
+        data = fetch_all(fallback_sql, conf["cols"])
+
     return jsonify(data), 200
 
